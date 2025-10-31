@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>飞狼 2026 承前启后 · 齐心奋斗</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      background: linear-gradient(135deg, #FF6B35 0%, #F7931E 25%, #FDC830 50%, #F37335 75%, #FF6B35 100%);
+      background-size: 400% 400%;
+      animation: funkGradient 8s ease infinite;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 48px;
+      overflow: hidden;
+    }
+
+    @keyframes funkGradient {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Funk 风格动态背景 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 255, 0.12) 35px, rgba(255, 255, 255, 0.12) 70px),
+        repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0, 0, 0, 0.05) 35px, rgba(0, 0, 0, 0.05) 70px);
+      animation: funkMove 20s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes funkMove {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      100% {
+        transform: translate(70px, 70px);
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      background: linear-gradient(145deg, rgba(61, 41, 82, 0.55) 0%, rgba(44, 27, 61, 0.6) 50%, rgba(30, 21, 40, 0.65) 100%);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 4px solid rgba(255, 140, 66, 0.9);
+      border-radius: 28px;
+      padding: 50px 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow:
+        0 0 0 2px rgba(253, 200, 48, 0.7),
+        0 25px 70px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 140, 66, 0.4),
+        inset 0 0 100px rgba(255, 140, 66, 0.1);
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #FF8C42, #FDC830, #FF8C42, transparent);
+      border-radius: 2px;
+      box-shadow: 0 0 10px rgba(255, 140, 66, 0.6);
+    }
+
+    .song-title {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #FFD93D 0%, #FF8C42 50%, #FFD93D 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      filter: drop-shadow(0 3px 10px rgba(255, 140, 66, 0.5));
+      animation: titleShine 4s linear infinite;
+    }
+
+    @keyframes titleShine {
+      0% {
+        background-position: 0% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .song-subtitle {
+      font-size: 16px;
+      color: #FFCC80;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    .lyrics-container {
+      max-height: 500px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      margin-bottom: 40px;
+      padding: 30px 25px;
+      background: linear-gradient(135deg, rgba(61, 41, 82, 0.35) 0%, rgba(30, 21, 40, 0.5) 100%);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      border: 2px solid rgba(255, 140, 66, 0.4);
+      scrollbar-width: thin;
+      scrollbar-color: #FF8C42 rgba(255, 255, 255, 0.1);
+      box-shadow:
+        inset 0 2px 10px rgba(0, 0, 0, 0.3),
+        0 4px 20px rgba(255, 140, 66, 0.2);
+    }
+
+    .lyrics-container::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #FF8C42, #FFD93D);
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(255, 140, 66, 0.6);
+    }
+
+    .lyric-line {
+      font-size: 28px;
+      line-height: 2;
+      color: #F5EDFF;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      padding: 10px 16px;
+      border-radius: 12px;
+      margin: 6px 0;
+      font-weight: 600;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    }
+
+    .lyric-line.active {
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 34px;
+      background: linear-gradient(90deg,
+          rgba(255, 140, 66, 0.5) 0%,
+          rgba(255, 217, 61, 0.55) 50%,
+          rgba(255, 140, 66, 0.5) 100%);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      transform: scale(1.05);
+      text-shadow:
+        0 0 25px rgba(255, 217, 61, 0.8),
+        0 3px 10px rgba(0, 0, 0, 0.8);
+      animation: funkBounce 0.6s ease-out;
+      box-shadow:
+        0 4px 25px rgba(255, 140, 66, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255, 217, 61, 0.6);
+    }
+
+    @keyframes funkBounce {
+
+      0%,
+      100% {
+        transform: scale(1.05);
+      }
+
+      50% {
+        transform: scale(1.08);
+      }
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .play-button {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #FF8C42 0%, #FFB366 50%, #FFD93D 100%);
+      color: white;
+      font-size: 36px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow:
+        0 0 0 4px rgba(255, 140, 66, 0.5),
+        0 10px 30px rgba(255, 140, 66, 0.6),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: visible;
+    }
+
+    .play-button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 217, 61, 0.5), transparent 70%);
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+      z-index: -1;
+    }
+
+    .play-button:hover {
+      transform: scale(1.1);
+      box-shadow:
+        0 0 0 6px rgba(255, 140, 66, 0.6),
+        0 15px 40px rgba(255, 140, 66, 0.8),
+        inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+    }
+
+    .play-button:hover::before {
+      width: 130%;
+      height: 130%;
+    }
+
+    .play-button:active {
+      transform: scale(1.05);
+    }
+
+    .play-button.playing {
+      animation: playingPulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes playingPulse {
+
+      0%,
+      100% {
+        box-shadow:
+          0 0 0 4px rgba(255, 140, 66, 0.5),
+          0 10px 30px rgba(255, 140, 66, 0.6);
+      }
+
+      50% {
+        box-shadow:
+          0 0 0 8px rgba(255, 140, 66, 0.7),
+          0 15px 45px rgba(255, 140, 66, 0.8),
+          0 0 40px rgba(255, 217, 61, 0.5);
+      }
+    }
+
+    .time-display {
+      font-size: 18px;
+      color: #FFD93D;
+      font-weight: 700;
+      min-width: 80px;
+      text-align: center;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+      font-family: 'Courier New', monospace;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(30, 21, 40, 0.7);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border-radius: 10px;
+      margin: 20px 0;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid rgba(255, 140, 66, 0.5);
+      box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.5),
+        0 0 15px rgba(255, 140, 66, 0.25);
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FF8C42 0%, #FFD93D 50%, #FFB366 100%);
+      background-size: 200% 100%;
+      border-radius: 10px;
+      width: 0%;
+      transition: width 0.1s linear;
+      animation: progressShine 3s linear infinite;
+      box-shadow: 0 0 15px rgba(255, 217, 61, 0.7);
+    }
+
+    @keyframes progressShine {
+      0% {
+        background-position: 0% 0%;
+      }
+
+      100% {
+        background-position: 200% 0%;
+      }
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+      body {
+        padding: 48px 24px;
+        align-items: stretch;
+      }
+
+      .container {
+        padding: 35px 25px;
+        border-radius: 24px;
+        max-height: calc(100vh - 96px);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .song-title {
+        font-size: 32px;
+        letter-spacing: 2px;
+      }
+
+      .song-subtitle {
+        font-size: 14px;
+        letter-spacing: 3px;
+      }
+
+      .lyrics-container {
+        flex: 1;
+        max-height: none;
+        min-height: 300px;
+        padding: 25px 20px;
+      }
+
+      .lyric-line {
+        font-size: 24px;
+        line-height: 1.8;
+      }
+
+      .lyric-line.active {
+        font-size: 28px;
+        transform: scale(1.03);
+      }
+
+      .play-button {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+      }
+
+      .time-display {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 48px 24px;
+      }
+
+      .container {
+        padding: 30px 20px;
+      }
+
+      .song-title {
+        font-size: 28px;
+        letter-spacing: 1px;
+      }
+
+      .song-subtitle {
+        font-size: 12px;
+        letter-spacing: 2px;
+      }
+
+      .lyrics-container {
+        min-height: 250px;
+        padding: 20px 15px;
+      }
+
+      .lyric-line {
+        font-size: 16px;
+        padding: 8px 12px;
+      }
+
+      .lyric-line.active {
+        font-size: 18px;
+        transform: scale(1.02);
+      }
+
+      .play-button {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+      }
+
+      .time-display {
+        font-size: 15px;
+        min-width: 70px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="song-title">飞狼 2026</h1>
+      <p class="song-subtitle">承前启后 · 齐心奋斗</p>
+    </div>
+
+    <div class="lyrics-container" id="lyricsContainer">
+      <div class="lyric-line" data-time="2">二零二六 二零二六</div>
+      <div class="lyric-line" data-time="6">新节奏 新节奏</div>
+      <div class="lyric-line" data-time="9">飞狼承前启后 飞狼承前启后</div>
+      <div class="lyric-line" data-time="14">齐奋斗 齐奋斗</div>
+      <div class="lyric-line" data-time="23">二零二六 二零二六</div>
+      <div class="lyric-line" data-time="27">新节奏 新节奏</div>
+      <div class="lyric-line" data-time="31">飞狼承前启后 飞狼承前启后</div>
+      <div class="lyric-line" data-time="35">齐奋斗 齐奋斗</div>
+    </div>
+
+    <div class="progress-bar" id="progressBar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="controls">
+      <div class="time-display" id="currentTime">0:00</div>
+      <button class="play-button" id="playButton">
+        <span id="playIcon">▶</span>
+      </button>
+      <div class="time-display">0:40</div>
+    </div>
+  </div>
+
+  <audio id="audio" src="./assets/2026_theme_song.mp3"></audio>
+
+  <script>
+    const audio = document.getElementById('audio');
+    const playButton = document.getElementById('playButton');
+    const playIcon = document.getElementById('playIcon');
+    const lyricsContainer = document.getElementById('lyricsContainer');
+    const lyricLines = document.querySelectorAll('.lyric-line');
+    const currentTimeDisplay = document.getElementById('currentTime');
+    const progressBar = document.getElementById('progressBar');
+    const progressFill = document.getElementById('progressFill');
+
+    let isPlaying = false;
+
+    // 播放/暂停控制
+    playButton.addEventListener('click', () => {
+      if (isPlaying) {
+        audio.pause();
+        playIcon.textContent = '▶';
+        playButton.classList.remove('playing');
+      } else {
+        audio.play();
+        playIcon.textContent = '⏸';
+        playButton.classList.add('playing');
+      }
+      isPlaying = !isPlaying;
+    });
+
+    // 音频结束时重置
+    audio.addEventListener('ended', () => {
+      playIcon.textContent = '▶';
+      playButton.classList.remove('playing');
+      isPlaying = false;
+      lyricLines.forEach(line => line.classList.remove('active'));
+    });
+
+    // 时间更新 - 歌词同步
+    audio.addEventListener('timeupdate', () => {
+      const currentTime = Math.floor(audio.currentTime);
+
+      // 更新时间显示
+      const minutes = Math.floor(currentTime / 60);
+      const seconds = currentTime % 60;
+      currentTimeDisplay.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+      // 更新进度条
+      const progress = (audio.currentTime / audio.duration) * 100;
+      progressFill.style.width = `${progress}%`;
+
+      // 歌词高亮
+      let activeIndex = -1;
+      lyricLines.forEach((line, index) => {
+        const lineTime = parseInt(line.getAttribute('data-time'));
+        if (currentTime >= lineTime) {
+          activeIndex = index;
+        }
+      });
+
+      lyricLines.forEach((line, index) => {
+        if (index === activeIndex) {
+          line.classList.add('active');
+          // 自动滚动到当前歌词
+          line.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          line.classList.remove('active');
+        }
+      });
+    });
+
+    // 进度条点击跳转
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const percentage = clickX / rect.width;
+      audio.currentTime = percentage * audio.duration;
+    });
+
+    // 空格键控制播放/暂停
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        playButton.click();
+      }
+    });
+  </script>
+</body>
+
+</html>
