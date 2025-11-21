@@ -183,7 +183,7 @@
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), transparent);
             filter: blur(3px);
             mix-blend-mode: screen;
-            opacity: 0.1;
+            opacity: 0;
             transition: opacity 0.4s ease-in-out;
         }
 
@@ -247,6 +247,25 @@
 
         body.is-playing .cyber-shell {
             box-shadow: 0 0 25px rgba(0, 243, 255, 0.3);
+            animation: border-pulse 4s linear infinite;
+        }
+
+        @keyframes border-pulse {
+            0% {
+                border-color: var(--neon-cyan);
+            }
+
+            33% {
+                border-color: var(--neon-purple);
+            }
+
+            66% {
+                border-color: var(--neon-pink);
+            }
+
+            100% {
+                border-color: var(--neon-cyan);
+            }
         }
 
         .track-info {
@@ -268,6 +287,29 @@
             overflow: hidden;
             text-overflow: ellipsis;
             margin: 0;
+            transition: text-shadow 0.3s;
+        }
+
+        body.is-playing .track-name {
+            animation: text-pulse 4s linear infinite;
+        }
+
+        @keyframes text-pulse {
+            0% {
+                text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+            }
+
+            33% {
+                text-shadow: 0 0 10px var(--neon-purple), 0 0 20px var(--neon-purple);
+            }
+
+            66% {
+                text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
+            }
+
+            100% {
+                text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+            }
         }
 
         .visualizer {
@@ -379,7 +421,6 @@
             cursor: pointer;
         }
 
-        /* SVG 狼头滑块 - Webkit */
         .seek-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -387,18 +428,15 @@
             height: 30px;
             background-color: transparent;
             border: none;
-            /* Data URI: neon pink fenrir logo */
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34.42515 48'%3E%3Cpath fill='%23ff00ff' d='M34.42515,6.59405a7.09584,7.09584,0,0,1-2.27508,5.08245,10.45116,10.45116,0,0,0-2.65668,4.26428c-.31827,1.0283-.63656,2.0567-.63656,9.30776v2.28664c0,5.959-.51459,7.10061-1.02906,8.24194-.44539.98808-.89107,1.9768-5.10476,6.19049s-5.4219,4.6747-6.62956,5.13552C14.91834,47.55152,13.743,48,7.784,48H1.97255V36.736c0-5.959.37314-6.85565.74591-7.75138.35744-.85892.71473-1.71746,4.92839-5.93112L9.5912,21.10913a6.36079,6.36079,0,0,1-2.85389-.43652c-.52979-.21335-1.06-.42686-4.431-3.79783L0,14.56842c6.22154,0,6.783-.21092,7.34466-.42194.66638-.25036,1.33221-.5005,3.45742-2.62571C13.87344,8.4494,14.649,8.09884,15.30382,7.80286c.89625-.40512,1.67182-.75568,4.88781-.75568a7.05489,7.05489,0,0,0,3.13946-.46565c.60638-.24209,1.21273-.48417,5.42639-4.69783L30.64118,0,31.397.75582C33.9707,3.32951,34.42515,5.18533,34.42515,6.59405Z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: center;
             background-size: contain;
-            /* 光晕贴合轮廓 */
             filter: drop-shadow(0 0 4px var(--neon-pink));
             cursor: pointer;
             transform: translateY(-1px);
         }
 
-        /* SVG 狼头滑块 - Firefox */
         .seek-slider::-moz-range-thumb {
             width: 22px;
             height: 30px;
@@ -411,6 +449,33 @@
             filter: drop-shadow(0 0 4px var(--neon-pink));
             cursor: pointer;
             transform: translateY(-1px);
+            transition: filter 0.3s;
+        }
+
+        body.is-playing .seek-slider::-webkit-slider-thumb {
+            animation: filter-pulse 4s linear infinite;
+        }
+
+        body.is-playing .seek-slider::-moz-range-thumb {
+            animation: filter-pulse 4s linear infinite;
+        }
+
+        @keyframes filter-pulse {
+            0% {
+                filter: drop-shadow(0 0 4px var(--neon-cyan)) hue-rotate(0deg);
+            }
+
+            33% {
+                filter: drop-shadow(0 0 4px var(--neon-purple)) hue-rotate(90deg);
+            }
+
+            66% {
+                filter: drop-shadow(0 0 4px var(--neon-pink)) hue-rotate(270deg);
+            }
+
+            100% {
+                filter: drop-shadow(0 0 4px var(--neon-cyan)) hue-rotate(360deg);
+            }
         }
 
         .progress-fill {
@@ -424,6 +489,33 @@
             width: 0%;
             z-index: 1;
             pointer-events: none;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .progress-fill {
+            animation: bg-pulse 4s linear infinite;
+        }
+
+        @keyframes bg-pulse {
+            0% {
+                background: var(--neon-cyan);
+                box-shadow: 0 0 10px var(--neon-cyan);
+            }
+
+            33% {
+                background: var(--neon-purple);
+                box-shadow: 0 0 10px var(--neon-purple);
+            }
+
+            66% {
+                background: var(--neon-pink);
+                box-shadow: 0 0 10px var(--neon-pink);
+            }
+
+            100% {
+                background: var(--neon-cyan);
+                box-shadow: 0 0 10px var(--neon-cyan);
+            }
         }
 
         .controls {
@@ -907,6 +999,13 @@
         });
         btnCloseList.addEventListener('click', () => {
             modal.classList.remove('active');
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.key === ' ') {
+                e.preventDefault();
+                isPlaying ? pauseAudio() : playAudio();
+            }
         });
 
         audio.addEventListener('loadedmetadata', () => {
