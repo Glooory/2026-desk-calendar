@@ -781,17 +781,20 @@
             {
                 path: "./assets/2026新节奏齐奋斗.mp3",
                 name: "2026新节奏齐奋斗",
-                lyrics: "二零二六\n二零二六\n新节奏\n新节奏\n**承前启后\n**承前启后\n齐奋斗\n齐奋斗\n二零二六\n二零二六\n新节奏\n新节奏\n**承前启后\n**承前启后\n齐奋斗\n齐奋斗",
+                lyrics: "二零二六\n二零二六\n新节奏\n新节奏\n🕊️🐺承前启后\n🕊️🐺承前启后\n齐奋斗\n齐奋斗\n二零二六\n二零二六\n新节奏\n新节奏\n🕊️🐺承前启后\n🕊️🐺承前启后\n齐奋斗\n齐奋斗",
+                lyrics_start: "00:02",
             },
             {
                 path: "./assets/2026是时候齐奋斗.mp3",
                 name: "2026是时候齐奋斗",
-                lyrics: "二零二六\n二零二六\n是时候\n是时候\n**迎新弃旧\n**迎新弃旧\n齐奋斗\n齐奋斗\n二零二六\n二零二六\n是时候\n是时候\n**迎新弃旧\n**迎新弃旧\n齐奋斗\n齐奋斗",
+                lyrics: "二零二六\n二零二六\n是时候\n是时候\n🕊️🐺迎新弃旧\n🕊️🐺迎新弃旧\n齐奋斗\n齐奋斗\n二零二六\n二零二六\n是时候\n是时候\n🕊️🐺迎新弃旧\n🕊️🐺迎新弃旧\n齐奋斗\n齐奋斗",
+                lyrics_start: "00:10",
             },
             {
                 path: "./assets/Month_song.mp3",
                 name: "Month Song",
-                lyrics: "January\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+                lyrics: "January\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+                lyrics_start: "00:18",
             },
         ];
 
@@ -839,6 +842,15 @@
             const m = Math.floor(seconds / 60);
             const s = Math.floor(seconds % 60);
             return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function parseTimeStr(timeStr) {
+            if (!timeStr) return 0;
+            const parts = timeStr.split(':');
+            if (parts.length === 2) {
+                return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+            }
+            return 0;
         }
 
         function loadSong(index) {
@@ -1043,13 +1055,25 @@
             const lines = document.querySelectorAll('.l-line');
             if (lines.length === 0) return;
 
-            const progress = audio.currentTime / audio.duration;
-            if (isNaN(progress)) return;
+            const song = songs[currentIndex];
+            const startTime = parseTimeStr(song.lyrics_start);
 
+            if (audio.currentTime < startTime) {
+                lines.forEach(l => l.classList.remove('highlight'));
+                return;
+            }
+
+            const duration = audio.duration;
+            const effectiveDuration = duration - startTime;
+
+            if (effectiveDuration <= 0 || isNaN(effectiveDuration)) return;
+
+            const progress = (audio.currentTime - startTime) / effectiveDuration;
             const activeIdx = Math.floor(progress * lines.length);
+            const safeIdx = Math.min(Math.max(0, activeIdx), lines.length - 1);
 
             lines.forEach((line, i) => {
-                if (i === activeIdx) {
+                if (i === safeIdx) {
                     line.classList.add('highlight');
                     const containerHeight = domLyrics.clientHeight;
                     const lineHeight = line.clientHeight;
